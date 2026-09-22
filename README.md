@@ -1,59 +1,43 @@
-# ShiftlyAngular
+# Shiftly - Shift Management Application 📅
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+A modern web application for regular workers to track work shifts, calculate earnings, and view monthly statistics. 
 
-## Development server
+This project is currently being migrated from Vanilla JavaScript to **Angular** to build a more scalable, component-based Single Page Application (SPA). It will eventually be connected to a Node.js REST API.
 
-To start a local development server, run:
+## ✨ Key Features
+* **User Authentication:** Secure register, login, and session management.
+* **Dashboard Statistics:** View upcoming shifts, past week's shifts, and the highest-earning month.
+* **Shift Management:** Create, read, and update work shifts with hourly wages.
+* **Smart Workplace Input:** Easily select from previously saved workplaces or type a new one to auto-save.
+* **Search & Filter:** Filter shifts by specific workplaces and date ranges.
+* **Profile Management:** Update personal user details.
 
-```bash
-ng serve
-```
+## 🛠 Tech Stack
+* **Framework:** Angular (Standalone Components)
+* **Language:** TypeScript, HTML5, CSS3
+* **State/Data:** LocalStorage (Currently serving as a mock DB, preparing for Node.js REST API integration)
+* **Design:** Custom "Mint & Charcoal" UI theme.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🚀 Getting Started
 
-## Code scaffolding
+1. Clone the repository:
+   ```bash
+   git clone <your-repository-url>
+   ```
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+2. Navigate to the project directory:
+   ```bash
+   cd shiftly-angular
+   ```
 
-```bash
-ng generate component component-name
-```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+4. Run the development server:
+   ```bash
+   ng serve -o
+   ```
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+5. The application will automatically open in your browser at `http://localhost:4200/`.

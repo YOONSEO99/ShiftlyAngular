@@ -1,0 +1,10 @@
+<header class="top-bar" *ngIf="username">
+        <div class="logo">Shiftly</div>
+        <div class="user-menu">
+            <span id="userGreeting" class="greeting">Hello - {{username}}</span>
+            <a routerLink="/my-shifts" class="nav-link">My Shifts</a>
+            <a routerLink="/add-shift" class="nav-link">Add Shifts</a>
+            <a routerLink="/edit-profile" class="nav-link">Edit Profile</a>
+            <a href="#" (click)="logout($event)" class="nav-link logout">Log out</a>
+        </div>
+    </header>
