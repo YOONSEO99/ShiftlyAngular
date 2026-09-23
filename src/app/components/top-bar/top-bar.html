@@ -1,10 +1,19 @@
-<header class="top-bar" *ngIf="username">
-        <div class="logo">Shiftly</div>
-        <div class="user-menu">
-            <span id="userGreeting" class="greeting">Hello - {{username}}</span>
+<header class="top-bar" *ngIf="username && showTopBar">
+    <div class="logo">Shiftly</div>
+    <div class="user-menu">
+        <span class="greeting">Hello - {{username}}</span>
+        
+        <ng-container *ngIf="role === 'worker'">
             <a routerLink="/my-shifts" class="nav-link">My Shifts</a>
-            <a routerLink="/add-shift" class="nav-link">Add Shifts</a>
+            <a routerLink="/add-shift" class="nav-link">Add Shift</a>
             <a routerLink="/edit-profile" class="nav-link">Edit Profile</a>
-            <a href="#" (click)="logout($event)" class="nav-link logout">Log out</a>
-        </div>
-    </header>
+        </ng-container>
+
+        <ng-container *ngIf="role === 'admin'">
+            <a routerLink="/all-shifts" class="nav-link">All Shifts</a>
+            <a routerLink="/all-workers" class="nav-link">All Workers</a>
+        </ng-container>
+
+        <a href="#" (click)="logout($event)" class="nav-link logout">Log out</a>
+    </div>
+</header>

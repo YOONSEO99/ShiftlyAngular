@@ -1,1 +1,50 @@
-<p>register works!</p>
+<main class="main-container auth-container" style="margin-top: 80px;">
+    <h2>Register</h2>
+    
+    <form (submit)="onRegister($event)">
+        <div class="form-group role-selector" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                <input type="radio" name="role" value="worker" [(ngModel)]="role"> Worker
+            </label>
+            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                <input type="radio" name="role" value="admin" [(ngModel)]="role"> Administrator
+            </label>
+        </div>
+
+        <div class="form-group" *ngIf="role === 'admin'">
+            <label for="adminCode">Secret Admin Code</label>
+            <input type="password" id="adminCode" name="adminCode" [(ngModel)]="adminCode" placeholder="Enter admin code">
+        </div>
+        
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" [(ngModel)]="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" [(ngModel)]="password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+        </div>
+
+        <div class="form-group">
+            <label for="birthDate">Date of Birth</label>
+            <input type="date" id="birthDate" name="birthDate" [(ngModel)]="birthDate" required>
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage" style="color: #dc2626; margin-bottom: 15px; font-size: 0.9rem;">
+            {{ errorMessage }}
+        </div>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p class="auth-switch">
+        Already have an account? 
+        <a routerLink="/login">Login here</a>
+    </p>
+</main>
