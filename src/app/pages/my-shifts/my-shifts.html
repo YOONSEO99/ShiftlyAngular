@@ -1,1 +1,31 @@
-<p>my-shifts works!</p>
+<main class="main-container" style="margin-top: 80px; padding: 20px; max-width: 1000px; margin-left: auto; margin-right: auto;">
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+        <h2>My Shifts</h2>
+        <a routerLink="/add-shift" class="btn-add">+ Add Shift</a>
+    </div>
+
+    <div class="empty-state" *ngIf="myShifts.length === 0">
+        <h3>No shifts found</h3>
+        <p>You haven't added any shifts yet. Click the button above to get started!</p>
+    </div>
+
+    <div class="shift-grid" *ngIf="myShifts.length > 0">
+        <div class="shift-card" *ngFor="let shift of myShifts">
+            <div class="card-header">
+                <h3>{{ shift.shiftName }}</h3>
+                <span class="badge">{{ shift.workplace }}</span>
+            </div>
+            
+            <div class="card-body">
+                <p><strong>Date:</strong> {{ shift.date }}</p>
+                <p><strong>Time:</strong> {{ shift.startTime }} - {{ shift.endTime }}</p>
+                <p><strong>Wage:</strong> ${{ shift.hourlyWage }} / hr</p>
+                <p *ngIf="shift.comments" class="comments"><strong>Notes:</strong> {{ shift.comments }}</p>
+            </div>
+            
+            <div class="card-footer">
+                <button class="btn-edit" (click)="editShift(shift.shiftName)">Edit</button>
+            </div>
+        </div>
+    </div>
+</main>

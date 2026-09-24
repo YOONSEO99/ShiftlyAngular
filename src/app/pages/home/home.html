@@ -4,36 +4,39 @@
     <div *ngIf="role === 'worker'" class="dashboard-grid">
         <section class="stat-card" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px;">
             <h3>Upcoming Shift</h3>
-            <p>No upcoming shifts scheduled.</p> 
+            <p>{{ upcomingShiftDate }}</p> 
         </section>
         
         <section class="stat-card" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px;">
             <h3>This Week's Past Shifts</h3>
-            <p>0 shifts completed this week.</p>
+            <p>{{ pastWeekShiftCount }} shifts completed this week.</p>
         </section>
         
         <section class="stat-card highlight" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px; background-color: #f0fdfa;">
             <h3>Highest Earning Month</h3>
-            <p>Data not available yet.</p>
+            <p>{{ highestEarningMonth }}</p>
         </section>
     </div>
 
     <div *ngIf="role === 'admin'" class="dashboard-grid">
         <section class="stat-card" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px;">
             <h3>Worker of the Month</h3>
-            <p>Most shifts: <strong>Loading...</strong></p>
+            <p>Most shifts: <strong>{{ workerOfMonth }}</strong></p>
         </section>
         
         <section class="stat-card" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px;">
             <h3>This Week's Past Shifts (All Workers)</h3>
             <ul style="list-style: none; padding: 0;">
-                <li>No records found.</li> 
+                <li *ngIf="pastWeekShiftsAll.length === 0">No records found.</li>
+                <li *ngFor="let shift of pastWeekShiftsAll">
+                    {{ shift.name }} - {{ shift.date }}
+                </li>
             </ul>
         </section>
         
         <section class="stat-card highlight" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px; background-color: #f0fdfa;">
             <h3>Highest Earning Month (Summary)</h3>
-            <p>Total Company Payout: <strong>$0.00</strong></p>
+            <p>Total Company Payout: <strong>{{ highestCompanyPayout }}</strong></p>
         </section>
     </div>
 </main>

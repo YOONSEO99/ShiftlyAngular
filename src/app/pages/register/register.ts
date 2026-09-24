@@ -58,7 +58,7 @@ export class Register {
       return;
     }
 
-    const existingUsers = JSON.parse(localStorage.getItem('shiftly_usres') || '[]');
+    const existingUsers = JSON.parse(localStorage.getItem('shiftly_users') || '[]');
 
     const userExists = existingUsers.some((u: any) => u.username === this.username);
     if (userExists) {
