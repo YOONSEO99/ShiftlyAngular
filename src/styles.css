@@ -128,3 +128,39 @@ a:hover {
     color: #0f766e;
     text-decoration: underline;
 }
+
+/* =========================
+   Mobile Global Fix
+========================= */
+
+@media (max-width: 768px) {
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+
+        overflow-x: hidden;
+    }
+
+    body {
+        display: block;
+        min-height: 100vh;
+    }
+
+    app-root {
+        display: block;
+
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+
+        margin: 0;
+        padding: 0;
+
+        box-sizing: border-box;
+    }
+}

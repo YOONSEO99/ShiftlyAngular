@@ -1,5 +1,5 @@
 <main class="main-container" style="margin-top: 80px; max-width: 500px; margin-left: auto; margin-right: auto; padding: 20px;">
-    <h2>Add a New Shift</h2>
+    <h2>{{ isEditMode ? 'Edit Shift' : 'Add a New Shift' }}</h2>
 
     <form (submit)="onSave($event)">
         <div class="form-group">
@@ -46,7 +46,7 @@
         </div>
 
         <button type="submit" [disabled]="isSaving" style="display: flex; justify-content: center; align-items: center; height: 45px; width: 100%;">
-            <span *ngIf="!isSaving">Save Shift</span>
+            <span *ngIf="!isSaving">{{ isEditMode ? 'Update Shift' : 'Save Shift' }}</span>
             <div class="spinner" *ngIf="isSaving"></div>
         </button>
     </form>

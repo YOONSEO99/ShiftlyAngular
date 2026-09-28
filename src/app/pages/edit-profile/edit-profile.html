@@ -1,1 +1,48 @@
-<p>edit-profile works!</p>
+<main class="main-container">
+    <h2>Edit Profile</h2>
+    
+    <form (submit)="onUpdate($event)" class="profile-form">
+        <div class="form-group-row">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" [(ngModel)]="firstName" required [disabled]="isSaving">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" [(ngModel)]="lastName" required [disabled]="isSaving">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" [(ngModel)]="email" required [disabled]="isSaving">
+        </div>
+
+        <div class="form-group">
+            <label for="birthDate">Birth Date</label>
+            <input type="date" id="birthDate" name="birthDate" [(ngModel)]="birthDate" required [disabled]="isSaving">
+        </div>
+
+        <hr class="divider">
+        <p class="section-desc">Leave passwords blank if you don't want to change them.</p>
+
+        <div class="form-group">
+            <label for="password">New Password</label>
+            <input type="password" id="password" name="password" [(ngModel)]="password" [disabled]="isSaving">
+        </div>
+
+        <div class="form-group">
+            <label for="passwordConfirm">Confirm New Password</label>
+            <input type="password" id="passwordConfirm" name="passwordConfirm" [(ngModel)]="passwordConfirm" [disabled]="isSaving">
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <button type="submit" [disabled]="isSaving" class="btn-submit">
+            <span *ngIf="!isSaving">Update Profile</span>
+            <div class="spinner" *ngIf="isSaving"></div>
+        </button>
+    </form>
+</main>

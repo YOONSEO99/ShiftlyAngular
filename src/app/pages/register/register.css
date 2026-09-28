@@ -1,0 +1,26 @@
+@media (max-width: 768px) {
+  .main-container {
+    margin-top: 130px !important;
+    padding: 20px;
+    width: 90%; 
+    max-width: 400px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+  }
+  
+  form > div:not(.role-selector)[style*="display: flex"] {
+    flex-direction: column;
+    gap: 0 !important;
+  }
+  form > div:not(.role-selector)[style*="display: flex"] > div {
+    margin-bottom: 15px;
+  }
+
+  .role-selector {
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 20px !important;
+  }
+}

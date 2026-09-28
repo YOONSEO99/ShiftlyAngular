@@ -40,3 +40,29 @@
   color: #cccccc;
   margin-right: 15px;
 }
+
+/* ---mobile--- */
+@media (max-width: 768px) {
+  .top-bar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 15px;
+    gap: 10px;
+  }
+  .user-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .greeting {
+    width: 100%;
+    text-align: center;
+    margin-right: 0;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+  }
+  .nav-link {
+    font-size: 0.9rem;
+    margin-left: 0;
+  }
+}
