@@ -1,42 +1,83 @@
-<main class="main-container dashboard" style="margin-top: 80px; padding: 20px;">
-    <h2>Dashboard</h2>
-    
-    <div *ngIf="role === 'worker'" class="dashboard-grid">
-        <section class="stat-card" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px;">
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <h2>Dashboard</h2>
+    </div>
+
+    <div *ngIf="role === 'worker'" class="dashboard-content">
+        <section class="stat-card">
             <h3>Upcoming Shift</h3>
-            <p>{{ upcomingShiftDate }}</p> 
+            <p class="highlight-text">{{ upcomingShiftDate }}</p>
         </section>
-        
-        <section class="stat-card" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px;">
-            <h3>This Week's Past Shifts</h3>
-            <p>{{ pastWeekShiftCount }} shifts completed this week.</p>
+
+        <section class="stat-card table-card">
+            <div class="table-header">
+                <h3>This Week's Past Shifts</h3>
+            </div>
+            <div class="table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Workplace</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="pastWeekShiftsList.length === 0">
+                            <td colspan="3" class="empty-msg">No shifts completed this week.</td>
+                        </tr>
+                        <tr *ngFor="let shift of pastWeekShiftsList">
+                            <td>{{ shift.date }}</td>
+                            <td>{{ shift.startTime }} - {{ shift.endTime }}</td>
+                            <td class="workplace-text">{{ shift.workplace }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
-        
-        <section class="stat-card highlight" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px; background-color: #f0fdfa;">
+
+        <section class="stat-card highlight-card">
             <h3>Highest Earning Month</h3>
-            <p>{{ highestEarningMonth }}</p>
+            <p class="highlight-text">{{ highestEarningMonth }}</p>
         </section>
     </div>
 
-    <div *ngIf="role === 'admin'" class="dashboard-grid">
-        <section class="stat-card" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px;">
+    <div *ngIf="role === 'admin'" class="dashboard-content">
+        <section class="stat-card">
             <h3>Worker of the Month</h3>
-            <p>Most shifts: <strong>{{ workerOfMonth }}</strong></p>
+            <p class="highlight-text">{{ workerOfMonth }}</p>
         </section>
-        
-        <section class="stat-card" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px;">
-            <h3>This Week's Past Shifts (All Workers)</h3>
-            <ul style="list-style: none; padding: 0;">
-                <li *ngIf="pastWeekShiftsAll.length === 0">No records found.</li>
-                <li *ngFor="let shift of pastWeekShiftsAll">
-                    {{ shift.name }} - {{ shift.date }}
-                </li>
-            </ul>
+
+        <section class="stat-card table-card">
+            <div class="table-header">
+                <h3>This Week's Past Shifts (All Workers)</h3>
+            </div>
+            <div class="table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Worker Name</th>
+                            <th>Date</th>
+                            <th>Workplace</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="pastWeekShiftsAll.length === 0">
+                            <td colspan="3" class="empty-msg">No shifts found this week.</td>
+                        </tr>
+                        <tr *ngFor="let shift of pastWeekShiftsAll">
+                            <td class="worker-name">{{ shift.username }}</td>
+                            <td>{{ shift.date }}</td>
+                            <td class="workplace-text">{{ shift.workplace }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
-        
-        <section class="stat-card highlight" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 15px; background-color: #f0fdfa;">
+
+        <section class="stat-card highlight-card">
             <h3>Highest Earning Month (Summary)</h3>
-            <p>Total Company Payout: <strong>{{ highestCompanyPayout }}</strong></p>
+            <p class="highlight-text">{{ highestCompanyPayout }}</p>
         </section>
     </div>
 </main>

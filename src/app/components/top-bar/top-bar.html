@@ -1,5 +1,6 @@
 <header class="top-bar" *ngIf="username && showTopBar">
-    <div class="logo">Shiftly</div>
+    <a routerLink="/home" class="logo" style="text-decoration: none; cursor: pointer; color: #1abc9c;">Shiftly</a>
+    
     <div class="user-menu">
         <span class="greeting">Hello - {{username}}</span>
         
