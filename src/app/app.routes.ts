@@ -13,6 +13,6 @@ export const routes: Routes = [
     {path: 'home', component:Home},
     {path: 'my-shifts', component:MyShifts},
     {path: 'add-shift', component:ShiftForm},
-    {path: 'edit-shift/:id', component:ShiftForm},
+    {path: 'edit-shift/:shiftName', component:ShiftForm},
     {path: 'edit-profile', component:EditProfile},
 ];

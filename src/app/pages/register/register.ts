@@ -10,6 +10,9 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './register.css',
 })
 export class Register {
+  firstName = '';
+  lastName = '';
+  email = '';
   username = '';
   password = '';
   confirmPassword = '';
@@ -20,27 +23,33 @@ export class Register {
 
   router = inject(Router);
 
-  onRegister(event:Event){
+  onRegister(event: Event) {
     event.preventDefault();
     this.errorMessage = '';
 
-    if (this.username.length<6 || this.password.length <6){
+    if (!this.firstName || !this.lastName || !this.email || !this.username || !this.password || !this.confirmPassword || !this.birthDate) {
+      this.errorMessage = 'Please fill out all required fields.';
+      return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(this.email)) {
+      this.errorMessage = 'Please enter a valid email address.';
+      return;
+    }
+
+    if (this.username.length < 6 || this.password.length < 6) {
       this.errorMessage = 'Username and password must be at least 6 characters long.';
       return;
     }
 
-    if(this.password!==this.confirmPassword){
+    if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match.';
       return;
     }
 
-    if(this.role === 'admin' && this.adminCode !== 'shiftly_admin_2026'){
+    if (this.role === 'admin' && this.adminCode !== 'shiftly_admin_2026') {
       this.errorMessage = 'Invalid Administrator Secret Code.';
-      return;
-    }
-
-    if(!this.birthDate){
-      this.errorMessage = 'Please enter your birth date.';
       return;
     }
 
@@ -49,11 +58,11 @@ export class Register {
     let age = today.getFullYear() - birth.getFullYear();
     const m = today.getMonth() - birth.getMonth();
 
-    if(m<0 || (m===0 && today.getDate() < birth.getDate())) {
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
       age--;
     }
 
-    if(age<18){
+    if (age < 18) {
       this.errorMessage = 'You must be at least 18 years old to register.';
       return;
     }
@@ -67,6 +76,10 @@ export class Register {
     }
 
     const newUser = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      birthDate: this.birthDate,
       username: this.username,
       password: this.password, 
       role: this.role
