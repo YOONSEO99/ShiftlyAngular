@@ -1,0 +1,35 @@
+<main class="main-container">
+    <div class="page-header">
+        <h2>All Workers</h2>
+    </div>
+
+    <div class="empty-state" *ngIf="workers.length === 0">
+        <h3>No workers found</h3>
+        <p>There are no workers registered in the system yet.</p>
+    </div>
+
+    <div class="table-container" *ngIf="workers.length > 0">
+        <table class="worker-table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Birth Date</th>
+                    <th>Password</th>
+                    <th>Confirm</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let worker of workers" (click)="editWorker(worker.username)" class="clickable-row">
+                    <td style="font-weight: bold; color: #374151;">{{ worker.firstName || '-' }}</td>
+                    <td>{{ worker.lastName || '-' }}</td>
+                    <td>{{ worker.email || '-' }}</td>
+                    <td>{{ worker.birthDate || '-' }}</td>
+                    <td class="masked-text">********</td>
+                    <td class="masked-text">********</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>

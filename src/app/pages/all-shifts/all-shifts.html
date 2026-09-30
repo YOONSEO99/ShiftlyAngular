@@ -1,0 +1,64 @@
+<main class="main-container">
+    <div class="page-header">
+        <h2>{{ isSingleWorkerMode ? 'Shifts for ' + searchName : 'All Shifts' }}</h2>
+    </div>
+
+    <div class="search-section" *ngIf="allShifts.length > 0">
+        <div class="search-filters">
+            <div class="filter-group" *ngIf="!isSingleWorkerMode">
+                <label>Worker Name:</label>
+                <input type="text" [(ngModel)]="searchName" (ngModelChange)="onSearch()" placeholder="e.g. angela">
+            </div>
+            <div class="filter-group">
+                <label>Shift Place:</label>
+                <input type="text" [(ngModel)]="searchPlace" (ngModelChange)="onSearch()" placeholder="e.g. Main Office">
+            </div>
+            <div class="filter-group">
+                <label>From:</label>
+                <input type="date" [(ngModel)]="searchStartDate" (ngModelChange)="onSearch()">
+            </div>
+            <div class="filter-group">
+                <label>To:</label>
+                <input type="date" [(ngModel)]="searchEndDate" (ngModelChange)="onSearch()">
+            </div>
+            <button class="btn-reset" (click)="resetSearch()">Clear</button>
+        </div>
+    </div>
+
+    <div class="empty-state" *ngIf="allShifts.length === 0">
+        <h3>No shifts found</h3>
+        <p>There are no shifts recorded in the system yet.</p>
+    </div>
+
+    <div class="empty-state" *ngIf="allShifts.length > 0 && filteredShifts.length === 0">
+        <h3>No matching shifts</h3>
+        <p>No shifts match your search criteria.</p>
+    </div>
+
+    <div class="table-container" *ngIf="filteredShifts.length > 0">
+        <table class="shift-table">
+            <thead>
+                <tr>
+                    <th>Worker Name</th>
+                    <th>Date</th>
+                    <th>Beginning Time</th>
+                    <th>End Time</th>
+                    <th>Price per Hour</th>
+                    <th>Shift Place</th>
+                    <th>Total Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let shift of filteredShifts" (click)="editShift(shift.shiftName)" class="clickable-row">
+                    <td style="font-weight: bold; color: #374151;">{{ shift.username }}</td>
+                    <td>{{ shift.date }}</td>
+                    <td>{{ shift.startTime }}</td>
+                    <td>{{ shift.endTime }}</td>
+                    <td>${{ shift.hourlyWage }}</td>
+                    <td><span class="badge" [ngStyle]="getBadgeStyle(shift.workplace)">{{ shift.workplace }}</span></td>
+                    <td class="profit-highlight">${{ shift.totalProfit }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
