@@ -1,43 +1,39 @@
 # Shiftly - Shift Management Application 📅
 
-A modern web application for regular workers to track work shifts, calculate earnings, and view monthly statistics. 
+A modern web application for regular workers and administrators to track work shifts, calculate earnings, and view comprehensive statistics. 
 
-This project is currently being migrated from Vanilla JavaScript to **Angular** to build a more scalable, component-based Single Page Application (SPA). It will eventually be connected to a Node.js REST API.
+This project is built with **Angular (Standalone Components)** to provide a scalable, component-based Single Page Application (SPA). It simulates backend persistence using `LocalStorage` while preparing for Node.js REST API integration.
 
 ## ✨ Key Features
-* **User Authentication:** Secure register, login, and session management.
-* **Dashboard Statistics:** View upcoming shifts, past week's shifts, and the highest-earning month.
-* **Shift Management:** Create, read, and update work shifts with hourly wages.
-* **Smart Workplace Input:** Easily select from previously saved workplaces or type a new one to auto-save.
-* **Search & Filter:** Filter shifts by specific workplaces and date ranges.
-* **Profile Management:** Update personal user details.
+* **User Authentication:** Secure register, login, and session management with expiration control.
+* **Role-Based Modes:**
+  * **Regular Worker Mode:** Track personal shifts, add/edit shifts, view personal statistics (upcoming shifts, past week's shifts, highest-earning month), and manage profile settings.
+  * **Administrator Mode:** Manage all workers and their shifts, view summary statistics (worker of the month, all workers' past shifts, highest company payout), filter individual worker shifts, and delete workers.
+* **Dashboard Statistics:** Dynamic earnings and work analytics based on real-time data calculations (including overnight shift handling).
+* **Search & Filter:** Advanced filtering options by worker name, workplace, and date ranges.
 
 ## 🛠 Tech Stack
 * **Framework:** Angular (Standalone Components)
 * **Language:** TypeScript, HTML5, CSS3
-* **State/Data:** LocalStorage (Currently serving as a mock DB, preparing for Node.js REST API integration)
-* **Design:** Custom "Mint & Charcoal" UI theme.
+* **State/Data:** LocalStorage (Mock DB supporting full CRUD operations)
+* **Design:** Custom "Mint & Charcoal" UI theme with responsive mobile support.
+
+## 🔐 Administrator Access
+To register and test as an **Administrator**, use the following secret code on the registration page:
+* **Admin Secret Code:** `shiftly_admin_2026`
 
 ## 🚀 Getting Started
 
 1. Clone the repository:
-   ```bash
    git clone <your-repository-url>
-   ```
 
 2. Navigate to the project directory:
-   ```bash
    cd shiftly-angular
-   ```
 
 3. Install dependencies:
-   ```bash
    npm install
-   ```
 
 4. Run the development server:
-   ```bash
    ng serve -o
-   ```
 
-5. The application will automatically open in your browser at `http://localhost:4200/`.
+5. The application will automatically open in your browser at http://localhost:4200/
