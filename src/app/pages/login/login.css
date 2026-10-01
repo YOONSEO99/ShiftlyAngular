@@ -78,9 +78,12 @@ button[type="submit"]:hover {
 }
 
 .auth-switch a {
+  text-align: center;
+  margin-top: 20px;
   color: #1abc9c;
   text-decoration: none;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .auth-switch a:hover {

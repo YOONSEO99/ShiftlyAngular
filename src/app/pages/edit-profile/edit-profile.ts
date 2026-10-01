@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router'; 
 
 @Component({
   selector: 'app-edit-profile',
@@ -20,22 +20,44 @@ export class EditProfile implements OnInit {
   errorMessage = '';
   isSaving = false;
   
-  username = '';
+  loggedInUser = ''; 
+  targetUsername = ''; 
+  isAdmin = false;
+
   router = inject(Router);
+  route = inject(ActivatedRoute); 
 
   ngOnInit() {
-    const session = localStorage.getItem('shiftly_session');
-    if (session) {
-      this.username = JSON.parse(session).username;
-      this.loadUserData();
-    } else {
+    const sessionStr = localStorage.getItem('shiftly_session');
+    if (!sessionStr) {
       this.router.navigate(['/login']);
+      return;
     }
+
+    const session = JSON.parse(sessionStr);
+    this.loggedInUser = session.username;
+    this.isAdmin = session.role === 'admin';
+
+    const paramUsername = this.route.snapshot.paramMap.get('username');
+
+    if (paramUsername) {
+      if (this.isAdmin) {
+        this.targetUsername = paramUsername; 
+      } else {
+        alert('Access denied. You can only edit your own profile.');
+        this.router.navigate(['/edit-profile']);
+        return;
+      }
+    } else {
+      this.targetUsername = this.loggedInUser; 
+    }
+
+    this.loadUserData();
   }
 
   loadUserData() {
     const allUsers = JSON.parse(localStorage.getItem('shiftly_users') || '[]');
-    const currentUser = allUsers.find((u: any) => u.username === this.username);
+    const currentUser = allUsers.find((u: any) => u.username === this.targetUsername);
 
     if (currentUser) {
       this.firstName = currentUser.firstName || '';
@@ -44,7 +66,7 @@ export class EditProfile implements OnInit {
       this.birthDate = currentUser.birthDate || '';
     } else {
       alert('User data not found!');
-      this.router.navigate(['/home']);
+      this.router.navigate(this.isAdmin ? ['/all-workers'] : ['/home']);
     }
   }
 
@@ -57,9 +79,28 @@ export class EditProfile implements OnInit {
       return;
     }
 
+    if (this.firstName.length < 2 || this.lastName.length < 2) {
+      this.errorMessage = 'First name and Last name must be at least 2 characters long.';
+      return;
+    }
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(this.email)) {
       this.errorMessage = 'Please enter a valid email address.';
+      return;
+    }
+
+    const today = new Date();
+    const birth = new Date(this.birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+
+    if (age < 6 || age > 130) {
+      this.errorMessage = 'Birth Date derived age must be between 6 and 130.';
       return;
     }
 
@@ -68,6 +109,16 @@ export class EditProfile implements OnInit {
         this.errorMessage = 'Password must be at least 6 characters long.';
         return;
       }
+
+      const hasLetter = /[a-zA-Z]/.test(this.password);
+      const hasNumber = /[0-9]/.test(this.password);
+      const hasSpecial = /[^a-zA-Z0-9]/.test(this.password);
+      
+      if (!hasLetter || !hasNumber || !hasSpecial) {
+        this.errorMessage = 'A password must contain letters, numbers and a character that is neither a letter nor a number.';
+        return;
+      }
+
       if (this.password !== this.passwordConfirm) {
         this.errorMessage = 'Passwords do not match.';
         return;
@@ -78,7 +129,7 @@ export class EditProfile implements OnInit {
 
     setTimeout(() => {
       const allUsers = JSON.parse(localStorage.getItem('shiftly_users') || '[]');
-      const userIndex = allUsers.findIndex((u: any) => u.username === this.username);
+      const userIndex = allUsers.findIndex((u: any) => u.username === this.targetUsername);
 
       if (userIndex !== -1) {
         allUsers[userIndex].firstName = this.firstName;
@@ -100,5 +151,24 @@ export class EditProfile implements OnInit {
         this.isSaving = false;
       }
     }, 1500);
+  }
+
+  goToFilterShifts() {
+    this.router.navigate(['/all-shifts'], { queryParams: { worker: this.targetUsername } });
+  }
+
+  deleteWorker() {
+    if (confirm('Are you sure you want to delete this worker?')) {
+      const allUsers = JSON.parse(localStorage.getItem('shiftly_users') || '[]');
+      const updatedUsers = allUsers.filter((u: any) => u.username !== this.targetUsername);
+      localStorage.setItem('shiftly_users', JSON.stringify(updatedUsers));
+      
+      const allShifts = JSON.parse(localStorage.getItem('shiftly_shifts') || '[]');
+      const updatedShifts = allShifts.filter((s: any) => s.username !== this.targetUsername);
+      localStorage.setItem('shiftly_shifts', JSON.stringify(updatedShifts));
+      
+      alert('Worker deleted successfully!');
+      this.router.navigate(['/home']);
+    }
   }
 }

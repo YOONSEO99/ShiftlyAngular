@@ -20,7 +20,10 @@ export class ShiftForm implements OnInit {
 
   errorMessage = '';
   isSaving = false;
+  
   username = '';
+  role = 'worker'; 
+  shiftOwner = ''; 
   
   workplaces = ['Main Office', 'Downtown Branch', 'Warehouse', 'Remote', 'Metrotown Branch'];
   
@@ -31,9 +34,11 @@ export class ShiftForm implements OnInit {
   originalShiftName = ''; 
 
   ngOnInit() {
-    const session = localStorage.getItem('shiftly_session');
-    if (session) {
-      this.username = JSON.parse(session).username;
+    const sessionStr = localStorage.getItem('shiftly_session');
+    if (sessionStr) {
+      const session = JSON.parse(sessionStr);
+      this.username = session.username;
+      this.role = session.role || 'worker';
     } else {
       this.router.navigate(['/login']);
       return;
@@ -48,10 +53,16 @@ export class ShiftForm implements OnInit {
   }
 
   loadShiftData(shiftNameToFind: string) {
+    const isAdmin = this.role === 'admin';
     const allShifts = JSON.parse(localStorage.getItem('shiftly_shifts') || '[]');
-    const shiftToEdit = allShifts.find((s: any) => s.shiftName === shiftNameToFind && s.username === this.username);
+    
+    const shiftToEdit = allShifts.find((s: any) => 
+      s.shiftName === shiftNameToFind && (isAdmin || s.username === this.username)
+    );
 
     if (shiftToEdit) {
+      this.shiftOwner = shiftToEdit.username; 
+      
       this.date = shiftToEdit.date;
       this.startTime = shiftToEdit.startTime;
       this.endTime = shiftToEdit.endTime;
@@ -60,8 +71,8 @@ export class ShiftForm implements OnInit {
       this.shiftName = shiftToEdit.shiftName;
       this.comments = shiftToEdit.comments || '';
     } else {
-      alert('Shift not found!');
-      this.router.navigate(['/my-shifts']);
+      alert('Shift not found or access denied!');
+      this.router.navigate(isAdmin ? ['/all-shifts'] : ['/my-shifts']);
     }
   }
 
@@ -89,8 +100,10 @@ export class ShiftForm implements OnInit {
     this.isSaving = true;
 
     setTimeout(() => {
+      const targetUsername = this.isEditMode ? this.shiftOwner : this.username;
+
       const newShiftData = {
-        username: this.username,
+        username: targetUsername, 
         date: this.date,
         startTime: this.startTime,
         endTime: this.endTime,
@@ -100,8 +113,12 @@ export class ShiftForm implements OnInit {
         comments: this.comments
       };
 
+      const isAdmin = this.role === 'admin';
+
       if (this.isEditMode) {
-        const index = allShifts.findIndex((s: any) => s.shiftName === this.originalShiftName && s.username === this.username);
+        const index = allShifts.findIndex((s: any) => 
+          s.shiftName === this.originalShiftName && (isAdmin || s.username === this.username)
+        );
         if (index !== -1) allShifts[index] = newShiftData;
       } else {
         allShifts.push(newShiftData);
@@ -111,7 +128,12 @@ export class ShiftForm implements OnInit {
 
       this.isSaving = false;
       alert(this.isEditMode ? 'Shift updated successfully!' : 'Shift saved successfully!');
-      this.router.navigate(['/my-shifts']);
+      
+      if (isAdmin && this.isEditMode) {
+        this.router.navigate(['/all-shifts']);
+      } else {
+        this.router.navigate(['/my-shifts']);
+      }
     }, 1500);
   }
 }

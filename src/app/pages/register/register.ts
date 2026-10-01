@@ -32,6 +32,11 @@ export class Register {
       return;
     }
 
+    if (this.firstName.length < 2 || this.lastName.length < 2) {
+      this.errorMessage = 'First name and Last name must be at least 2 characters long.';
+      return;
+    }
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(this.email)) {
       this.errorMessage = 'Please enter a valid email address.';
@@ -40,6 +45,15 @@ export class Register {
 
     if (this.username.length < 6 || this.password.length < 6) {
       this.errorMessage = 'Username and password must be at least 6 characters long.';
+      return;
+    }
+
+    const hasLetter = /[a-zA-Z]/.test(this.password);
+    const hasNumber = /[0-9]/.test(this.password);
+    const hasSpecial = /[^a-zA-Z0-9]/.test(this.password);
+    
+    if (!hasLetter || !hasNumber || !hasSpecial) {
+      this.errorMessage = 'A password must contain letters, numbers and a character that is neither a letter nor a number.';
       return;
     }
 
@@ -62,8 +76,8 @@ export class Register {
       age--;
     }
 
-    if (age < 18) {
-      this.errorMessage = 'You must be at least 18 years old to register.';
+    if (age < 6 || age > 130) {
+      this.errorMessage = 'Birth Date derived age must be between 6 and 130.';
       return;
     }
 
@@ -88,7 +102,15 @@ export class Register {
     existingUsers.push(newUser);
     localStorage.setItem('shiftly_users', JSON.stringify(existingUsers));
 
-    alert('Registration successful! Please login.');
-    this.router.navigate(['/login']);
+    const expiresIn = 60 * 60 * 1000;
+    const expirationTime = new Date().getTime() + expiresIn;
+    const sessionData = { 
+      username: this.username, 
+      role: this.role, 
+      expiry: expirationTime 
+    };
+    localStorage.setItem('shiftly_session', JSON.stringify(sessionData));
+
+    this.router.navigate(['/home']);
   } 
 }

@@ -136,3 +136,53 @@ input:disabled {
     margin-bottom: 15px;
   }
 }
+
+.admin-actions {
+  margin-top: 20px;
+}
+
+.admin-btn-group {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-filter {
+  flex: 1;
+  padding: 12px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-filter:hover {
+  background-color: #2563eb;
+}
+
+.btn-delete {
+  flex: 1;
+  padding: 12px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-delete:hover {
+  background-color: #dc2626;
+}
+
+@media (max-width: 768px) {
+  .admin-btn-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
